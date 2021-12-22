@@ -24,6 +24,8 @@ GIST_LOAD_URL ?= http://localhost:4000/gist/load
 
 COMPILE_URL ?= http://localhost:4000/compile
 
+RUST_FORMAT_URL ?= http://localhost:4000/rust_format
+
 ################################################################################
 # GENERATE
 ################################################################################
@@ -52,6 +54,7 @@ playground-build:
 	COMPILE_URL=/compile \
 	GIST_LOAD_URL=/gist/load \
 	GIST_CREATE_URL=/gist/create \
+	RUST_FORMAT_URL=/rust_format \
 	yarn workspace playground run build
 
 playground-start: generate-bindings
@@ -59,6 +62,7 @@ playground-start:
 	COMPILE_URL=$(COMPILE_URL) \
 	GIST_LOAD_URL=$(GIST_LOAD_URL) \
 	GIST_CREATE_URL=$(GIST_CREATE_URL) \
+	RUST_FORMAT_URL=$(RUST_FORMAT_URL) \
 	yarn workspace playground run start
 
 playground-clean:

@@ -61,6 +61,7 @@ const localConfig = {
       COMPILE_URL: '',
       GIST_CREATE_URL: '',
       GIST_LOAD_URL: '',
+      RUST_FORMAT_URL: '',
     }),
   ],
   experiments: {

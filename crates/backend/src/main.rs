@@ -27,6 +27,7 @@ use crate::{
             create::route_gist_create,
             load::route_gist_load,
         },
+        rust_format::route_rust_format,
     },
 };
 use actix_cors::Cors;
@@ -75,6 +76,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/compile",
                 post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
+            )
+            .route(
+                "/rust_format",
+                post().to(|body| route_rust_format(body)),
             )
             .route(
                 "/status",

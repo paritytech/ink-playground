@@ -31,7 +31,7 @@ export const InkEditor = (props: InkEditorProps): ReactElement => {
         props.setURI && props.setURI(model.uri);
         await import('./utils/startRustAnalyzer').then(async code => {
           props.onRustAnalyzerStartLoad && props.onRustAnalyzerStartLoad();
-          await code.startRustAnalyzer(model.uri);
+          //await code.startRustAnalyzer(model.uri);
           props.onRustAnalyzerFinishLoad && props.onRustAnalyzerFinishLoad();
         });
       }

@@ -16,6 +16,7 @@ import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
+import { rustFormat } from '~/context/side-effects/rust-format';
 import * as sizeLimit from '~/constants';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
 
@@ -64,6 +65,14 @@ export const Header = (): ReactElement => {
           darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => compile(state, dispatch, dispatchMessage)}
+          loading={state.compile.type === 'IN_PROGRESS'}
+        />
+        <ButtonWithIcon
+          label="Format"
+          Icon={CompileIcon}
+          darkmode={state.darkmode}
+          testId={'buttonIcon'}
+          onClick={() => rustFormat(state, dispatch, dispatchMessage)}
           loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon

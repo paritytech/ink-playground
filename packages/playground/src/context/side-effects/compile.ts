@@ -75,7 +75,6 @@ export async function compile(state: State, dispatch: Dispatch, dispatchMessage:
   const model = monaco.editor.getModel(uri);
 
   if (!model) {
-    // ToDo: implement proper error handling
     dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'NOT_ASKED' } });
     return;
   }

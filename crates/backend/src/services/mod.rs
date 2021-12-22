@@ -20,3 +20,4 @@
 pub mod compile;
 pub mod frontend;
 pub mod gist;
+pub mod rust_format;

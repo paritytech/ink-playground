@@ -9,7 +9,6 @@ import { Dispatch, State } from '~/context/app/reducer';
 import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 
 const App = (): ReactElement => {
-  const [code, setCode] = useState(exampleCode);
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
@@ -27,22 +26,25 @@ const App = (): ReactElement => {
     });
 
   return (
-    <Layout
-      header={<Header />}
-      editor={
-        <InkEditor
-          code={code}
-          onCodeChange={setCode}
-          onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
-          onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
-          numbering={state.numbering}
-          darkmode={state.darkmode}
-          minimap={state.minimap}
-          setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
-        />
-      }
-      console={<Console />}
-    />
+    <>
+      {state.code}
+      <Layout
+        header={<Header />}
+        editor={
+          <InkEditor
+            code={state.code}
+            onCodeChange={code => dispatch({ type: 'SET_CODE', payload: code })}
+            onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
+            onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
+            numbering={state.numbering}
+            darkmode={state.darkmode}
+            minimap={state.minimap}
+            setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
+          />
+        }
+        console={<Console />}
+      />
+    </>
   );
 };
 

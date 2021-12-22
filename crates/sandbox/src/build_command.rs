@@ -33,6 +33,16 @@ const DOCKER_WORKDIR: &str = "/builds/contract/";
 
 const DOCKER_OUTPUT: &str = "/playground-result";
 
+pub fn build_format_command(input_file: &Path, output_dir: &Path) -> Command {
+    let mut cmd = build_docker_command(input_file, output_dir);
+
+    cmd.arg("rustfmt").args(&["cargo", "fmt"]);
+
+    log::debug!("Formatting command is {:?}", cmd);
+
+    cmd
+}
+
 pub fn build_compile_command(input_file: &Path, output_dir: &Path) -> Command {
     let mut cmd = build_docker_command(input_file, output_dir);
 
