@@ -72,7 +72,7 @@ const Prompt = ({ message: m, mIndex }: Props): ReactElement => {
 
 export const ConsoleMessage = ({ message: m, mIndex }: Props): ReactElement => {
   return (
-    <div className="flex mb-1 basis-zero" data-testid={`message-${mIndex}`}>
+    <div className="flex mb-1 basis-zero" data-testid={`message-${mIndex}-${m.status}`}>
       <Prompt message={m} mIndex={mIndex} />
       <span className="pl-2 mt-px2 font-mono">
         {m.preContent && <span className={m.preContentColor}>{m.preContent} </span>}

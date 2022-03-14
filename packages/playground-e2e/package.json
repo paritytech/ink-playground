@@ -1,0 +1,9 @@
+{
+  "name": "playground-e2e",
+  "dependencies": {
+    "@playwright/test": "^1.17.1"
+  },
+  "scripts": {
+    "run-test": "yarn playwright test"
+  }
+}
