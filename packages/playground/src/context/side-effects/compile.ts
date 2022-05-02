@@ -1,7 +1,7 @@
 import { CompileApiResponse, compileRequest } from '@paritytech/ink-editor/api/compile';
+import { monaco } from '@paritytech/ink-editor/';
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { COMPILE_URL } from '~/env';
 
 const getMessageAction = (result: CompileApiResponse): MessageAction | undefined => {

@@ -24,7 +24,10 @@ jobs:
       - name: Restart docker service
         run: sudo systemctl restart docker.service
 
-      - name: Build docker
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_USER_NAME }}/ink-playground:latest
+
+      - name: Build docker-buildkit
         run: make docker-buildkit
         env:
           DOCKER_USER_NAME: ${{ secrets.DOCKER_USER_NAME }}
