@@ -10,7 +10,7 @@ readme = "README.md"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-lsp-types = { version = "0.91.1", features = ["proposed"] }
+lsp-types = { version = "0.93.0", features = ["proposed"] }
 console_error_panic_hook = { version = "0.1.7" }
 instant = { version = "0.1.12", features = ["wasm-bindgen"] }
 log = { version = "0.4.17", features = ["release_max_level_warn"] }
