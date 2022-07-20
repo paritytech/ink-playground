@@ -6,14 +6,20 @@
   </p>
 </figure>
 
-An ink! Playground which provides a Browser based IDE for editing Smart Contracts written in [ink!](https://github.com/paritytech/ink). A live deployment of the App can be found under [ink-playground.substrate.io](https://ink-playground.substrate.io).
+With ink! Playground you can write and compile [ink!](https://github.com/paritytech/ink) smart contracts in the browser. It uses the [Monaco editor](https://microsoft.github.io/monaco-editor/) under the hood and runs a WebAssembly version of [Rust Analyzer](https://rust-analyzer.github.io/) to provide editor language features for your Rust code.
 
-Features:
+A live deployment can be found at [ink-playground.substrate.io](https://ink-playground.substrate.io). 
 
-- Uses the [Monaco editor](https://microsoft.github.io/monaco-editor/)
-- Implements a WebAssembly version of [Rust Analyzer](https://rust-analyzer.github.io/) for code editing
-- Allows saving and sharing of Smart Contract code
-- Implements a one click compile functionality of ink! Smart Contracts to WASM which is provided by a backend service
+
+
+Includes:
+
+- One click compile to WASM functionality for ink! Smart Contracts, provided by a backend service
+- Code completion and goto definition
+- Compiled contract file download
+- Rust source code sharing through URL or GitHub gists
+
+
 
 ## Table of Contents
 
@@ -51,7 +57,7 @@ The backend serves the frontend app and it also provides the backend services fo
 
 To clone and build the whole project on your local machine, enter:
 
-1. `git clone clone https://github.com/paritytech/ink-playground`
+1. `git clone https://github.com/paritytech/ink-playground`
 
 2. `cd ink-playground`
 
