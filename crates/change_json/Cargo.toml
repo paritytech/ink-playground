@@ -7,7 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [dependencies]
-serde = { version = "1.0.138", features = ["derive"] }
+serde = { version = "1.0.140", features = ["derive"] }
 base_db = { package = "ra_ap_base_db", version = "0.0.120" }
 cfg = { package = "ra_ap_cfg", version = "0.0.120" }
 tt = { package = "ra_ap_tt", version = "0.0.120" }

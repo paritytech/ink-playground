@@ -14,7 +14,7 @@ lsp-types = { version = "0.91.1", features = ["proposed"] }
 console_error_panic_hook = { version = "0.1.7" }
 instant = { version = "0.1.12", features = ["wasm-bindgen"] }
 log = { version = "0.4.17", features = ["release_max_level_warn"] }
-serde = { version = "1.0.138", features = ["derive"] }
+serde = { version = "1.0.140", features = ["derive"] }
 serde_json = { version = "1.0.82", features = ["preserve_order"] }
 serde_repr = "0.1.8"
 serde-wasm-bindgen = "0.4.3"
