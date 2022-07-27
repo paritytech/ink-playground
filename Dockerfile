@@ -3,7 +3,7 @@
 ################################################################################
 
 # Start from a rust base image
-FROM rust:1.61.0 as base
+FROM docker.io/rust:1.61.0 as base
 
 # Set the current directory
 WORKDIR /app
