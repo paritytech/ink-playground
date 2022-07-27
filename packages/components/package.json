@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "primeicons": "^5.0.0",
-    "primereact": "^8.1.1",
+    "primereact": "^8.3.0",
     "react-transition-group": "^4.4.2"
   },
   "devDependencies": {
