@@ -7,7 +7,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
-    "cspell": "^5.21.2",
+    "cspell": "^6.4.2",
     "css-minimizer-webpack-plugin": "^4.0.0",
     "eslint": "^8.19.0",
     "markdown-magic": "^2.6.0",
