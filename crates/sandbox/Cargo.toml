@@ -7,11 +7,11 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [dependencies]
-serde = "1.0.138"
+serde = "1.0.140"
 tempdir = "0.3.7"
-snafu = "0.6.10"
+snafu = "0.7.1"
 log = "0.4.17"
-tokio = { version = "1.19.2", features = [
+tokio = { version = "1.20.1", features = [
     "macros",
     "time",
     "process",
