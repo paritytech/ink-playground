@@ -1,0 +1,155 @@
+# paritytech/ink-playground
+
+stages:
+  - lint
+  - test
+  - publish
+
+default:
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - unknown_failure
+      - api_failure
+
+.rust-info-script:                 &rust-info-script
+  - rustup show
+  - cargo --version
+  - rustup +nightly show
+  - cargo +nightly --version
+  - cargo spellcheck --version
+  - bash --version
+  - sccache -s
+
+.kubernetes-env:          &kubernetes-env
+  image:                  "node:16.15"
+  tags:
+    - kubernetes-parity-build
+
+.docker-env:                       &docker-env
+  image:                           "paritytech/ci-linux:production"
+  before_script:
+    - *rust-info-script
+  interruptible:                   true
+  tags:
+    - linux-docker
+
+# Lint
+ts-lint:
+  stage:                  lint
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make ts-lint
+
+ts-check-format:
+  stage:                  lint
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make ts-check-format
+
+ts-check-spelling:
+  stage:                  lint
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make ts-check-spelling
+
+rust-check-format:
+  stage:                  lint
+  <<:                     *docker-env
+  script:
+    - cargo +nightly fmt --all -- --check
+
+rust-lint:
+  stage: lint
+  <<:                     *docker-env
+  script:
+    - cargo +stable clippy --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
+
+# Test
+test-rust-analyzer-wasm:
+  needs:                  []
+  stage:                  test
+  <<:                     *docker-env
+  script:
+    - apt update && apt install -y wget
+    - wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - apt install -y ./google-chrome-stable_current_amd64.deb
+    - CHROME_VERSION=$(google-chrome --version | grep -o -E "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+")
+    - CHROME_DRIVER_VERSION=$(curl "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+    - wget -q "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip"
+    - unzip chromedriver_linux64.zip
+    - mv chromedriver /usr/bin/chromedriver
+    - chown root:root /usr/bin/chromedriver
+    - chmod +x /usr/bin/chromedriver
+    - chromedriver --version
+    - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - cargo install wasm-pack
+    - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
+
+test-components:
+  needs:                  []
+  stage:                  test
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make components-test
+
+test-playground:
+  needs:                  []
+  stage:                  test
+  <<:                     *docker-env
+  script:
+    - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+    - apt update && apt install -y nodejs
+    - npm install -y -g yarn
+    - node -v
+    - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - make ts-install
+    - make generate
+    - make playground-test
+
+# Publish
+build-ink-playground-image:
+  stage:                  publish
+  image:                  quay.io/buildah/stable
+  script:
+    - test "${Docker_Hub_User_Parity}" -a "${Docker_Hub_Pass_Parity}" ||
+      ( echo "no docker credentials provided"; exit 1 )
+    - buildah bud
+        --format=docker
+        --tag ink-playground
+    - echo "${Docker_Hub_Pass_Parity}" |
+      buildah login --username "${Docker_Hub_User_Parity}" --password-stdin docker.io
+    - buildah info
+    # - buildah push --format=v2s2 "$IMAGE_NAME:$VERSION"
+    # - buildah push --format=v2s2 "$IMAGE_NAME:$EXTRATAG"
+  after_script:
+    - buildah logout --all
+  tags:
+    - kubernetes-parity-build
+
+build-ink-backend-image:
+  stage:                  publish
+  image:                  quay.io/buildah/stable
+  script:
+    - test "${Docker_Hub_User_Parity}" -a "${Docker_Hub_Pass_Parity}" ||
+      ( echo "no docker credentials provided"; exit 1 )
+    - buildah bud
+        --format=docker
+        --tag ink-backend
+        ./compiler/.
+    - echo "${Docker_Hub_Pass_Parity}" |
+      buildah login --username "${Docker_Hub_User_Parity}" --password-stdin docker.io
+    - buildah info
+    # - buildah push --format=v2s2 "$IMAGE_NAME:$VERSION"
+    # - buildah push --format=v2s2 "$IMAGE_NAME:$EXTRATAG"
+  after_script:
+    - buildah logout --all
+  tags:
+    - kubernetes-parity-build
